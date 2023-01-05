@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 stores = [
     {
-        'name': 'My Wonderful Store',
+        'name': 'My Store',
         'items': [
             {
                 'name': 'The Chair',
@@ -73,6 +73,22 @@ def create_item_in_store(name):
                 'message': 'Item created',
                 'item': new_item
             }, 201
+
+    return {
+        'message': 'Store not found'
+    }, 404
+
+
+@app.get('/store/<string:name>/item')
+def list_items_in_store(name):
+    # List all the items in each store
+
+    for store in stores:
+        if store['name'] == name:
+            return {
+                'items': store['items'],
+                'name': store['name']
+            }
 
     return {
         'message': 'Store not found'
