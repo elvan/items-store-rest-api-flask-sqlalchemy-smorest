@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from db import db
 from models import StoreModel
-from schemas import ItemSchema, StoreSchema
+from schemas import StoreSchema
 
 blp = Blueprint("Stores", "stores", description="Operations on stores")
 
@@ -23,9 +23,9 @@ class Store(MethodView):
 
 @blp.route("/store")
 class StoreList(MethodView):
-    @blp.response(200, ItemSchema(many=True))
+    @blp.response(200, StoreSchema(many=True))
     def get(self):
-        raise NotImplementedError("Listing stores is not implemented.")
+        return StoreModel.query.all()
 
     @blp.arguments(StoreSchema)
     @blp.response(201, StoreSchema)
